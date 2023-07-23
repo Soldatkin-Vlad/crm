@@ -45,6 +45,7 @@ $this->headTitle($this->escapeHtml($title));
 								<th>Комментарий</th>
                                 <th>Статус</th>
                                 <th>Дата добавления</th>
+								<th>Действия</th>
 							</tr>
 						</thead>
 
@@ -59,7 +60,7 @@ $this->headTitle($this->escapeHtml($title));
 											<?= $client->getUsername(); ?>
 											
 									</td>
-									<td></td>
+									<td><?= $client->getPasport(); ?></td>
 									<td><?=
                                         $this->dateFormat(
                                             new DateTime($client->getBirthday()),
@@ -70,16 +71,45 @@ $this->headTitle($this->escapeHtml($title));
                                         ?></td>
 									<td>
 
-
+									<?= $client->getNomberD(); ?>
 											
 									</td>
-									<td></td>
-									<td>
+									<td><?=
+                                        $this->dateFormat(
+                                            new DateTime($client->getDataD()),
+                                            IntlDateFormatter::SHORT ,
+                                            IntlDateFormatter::NONE,
+                                            "ru_RU"
+                                        );
+                                        ?></td>
+																			<td>
+									<?= $client->getTrafic(); ?>
 									</td>
 									<td>
-										<a href="<?= $this->url('crm', ['action' => 'delete', 'id' => $client->getId()]); ?>">
-											<?= $this->translate('Delete'); ?>	
+									<?= $client->getComents(); ?>
+									</td>
+									<td>
+										Активен
+									</td>
+									<td><?=
+                                        $this->dateFormat(
+                                            new DateTime($client->getDataAd()),
+                                            IntlDateFormatter::SHORT ,
+                                            IntlDateFormatter::NONE,
+                                            "ru_RU"
+                                        );
+                                        ?></td>
+									<td>
+										<!--a href="<?= $this->url('crm', ['action' => 'view', 'id' => $client->getId()]); ?>">
+											Просмотреть
+										</a-->
+										<a href="<?= $this->url('crm', ['action' => 'edit', 'id' => $client->getId()]); ?>">
+											Редактировать
 										</a>
+										<a href="<?= $this->url('crm', ['action' => 'delete', 'id' => $client->getId()]); ?>">
+											Удалить
+										</a>
+
 									</td>
 								</tr>
 								<?php endif; ?>
