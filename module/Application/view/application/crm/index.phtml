@@ -27,6 +27,35 @@ $this->headTitle($this->escapeHtml($title));
 
 			</div>
 
+
+            <form method="get" action="/crm/index" >
+                <div class="mb-3">
+                    <div class="input-group">
+                        <input type="text" name="s" required="required" size="40" maxlength="255" class="form-control" placeholder="Введите номер паспорта для поиска" data-toggle="tooltip" title="Введите номер паспорта" value="">
+                    </div>
+                </div>
+                <div class="mb-3 float-right">
+                    <input type="submit" name="create_client" class="btn btn-primary" value="Поиск">
+                </div>
+            </form>
+
+            <?php
+            $formPassport = $this->formPassport;
+            $formPassport->prepare(); // The correct enctype is set here
+            $fileElement = $formPassport->get('image-file');
+            echo $this->form()->openTag($formPassport);
+            ?>
+
+            <div class="form-element">
+                <?= $this->formLabel($fileElement) ?>
+                <?= $this->formFile($fileElement) ?>
+                <?= $this->formElementErrors($fileElement) ?>
+            </div>
+
+            <button>Загрузить</button>
+
+            <?= $this->form()->closeTag() ?>
+
 			<?php if(count($this->clients) > 0): ?>
 
 				<div class="table-responsive">
@@ -83,7 +112,15 @@ $this->headTitle($this->escapeHtml($title));
                                         );
                                         ?></td>
 																			<td>
-									<?= $client->getTrafic(); ?>
+									<?php
+                                    switch ($client->getTrafic()) {
+                                        case 'Base':
+                                            echo "Базовый";
+                                            break;
+                                        case 'Family':
+                                            echo "Семейный";
+                                            break;
+                                    } ?>
 									</td>
 									<td>
 									<?= $client->getComents(); ?>

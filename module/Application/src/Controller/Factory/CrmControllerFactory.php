@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Application\Controller\Factory;
 
-use Application\Form\Quiz\CreateForm;
+use Application\Form\Crm\CreateForm;
 use Application\Controller\CrmController;
+use Application\Form\Crm\PassportUploadForm;
 use Application\Model\Table\AnswersTable;
 use Application\Model\Table\CrmTable;
 use Application\Model\Table\TalliesTable;
@@ -21,7 +22,8 @@ class CrmControllerFactory implements FactoryInterface
 			$container->get(AnswersTable::class),
 			$formManager->get(CreateForm::class),
 			$container->get(CrmTable::class),
-			$container->get(TalliesTable::class)
+			$container->get(TalliesTable::class),
+            $formManager->get(PassportUploadForm::class)
 		);
 	}
 }

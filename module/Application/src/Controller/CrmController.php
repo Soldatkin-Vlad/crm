@@ -12,6 +12,7 @@ namespace Application\Controller;
 use Application\Form\Quiz\AnswerForm;
 use Application\Form\Crm\CreateForm;
 use Application\Form\Crm\DeleteForm;
+use Application\Form\Crm\PassportUploadForm;
 use Application\Model\Table\AnswersTable;
 use Application\Model\Table\CrmTable;
 use Application\Model\Table\QuizzesTable;
@@ -26,19 +27,23 @@ class CrmController extends AbstractActionController
 	private $createForm;
 	private $crmTable;
 	private $talliesTable;
+    private $passportUploadForm;
 
 	public function __construct(
 		AnswersTable $answersTable,
 		CreateForm $createForm,
 		CrmTable $crmTable,
-		TalliesTable $talliesTable
+		TalliesTable $talliesTable,
+        PassportUploadForm $passportUploadForm
 	) 
 	{
 		$this->answersTable = $answersTable;
 		$this->createForm   = $createForm;
 		$this->crmTable = $crmTable;
 		$this->talliesTable = $talliesTable;
-	}
+		$this->passportUploadForm = $passportUploadForm;
+
+    }
 
 	public function createAction()
 	{
@@ -52,33 +57,21 @@ class CrmController extends AbstractActionController
 		$request = $this->getRequest();
 
 		if($request->isPost()) {
+		    print_r('post');
 			$formData = $request->getPost()->toArray();
-			$addForm->setInputFilter($this->quizzesTable->getCreateFormFilter());
+            $formData['status'] = 1;
+			$addForm->setInputFilter($this->crmTable->getCreateFormFilter());
 			$addForm->setData($formData);
 
 			if($addForm->isValid()) {
+
 				try {
 
 					$data = $addForm->getData();
-					$info = $this->quizzesTable->saveQuiz($data);
-					$id   = (int)$info->getGeneratedValue();  # get lastInsertId
+					$info = $this->crmTable->saveClient($data);
 
-					#sanitize answers[] field input
-					$answers = (array) $this->params()->fromPost('answers');
-					$answers = array_filter(array_map('strip_tags', $answers)); # strip html tags
-					$answers = array_filter(array_map('trim', $answers));       # trim empty spaces
-					$answers = array_slice($answers, 0, 5); # we restrict to 5 fields i meant
-
-					foreach($answers as $index => $answer) {
-						if(mb_strlen($answer) > 100) {
-							$answers[$index] = mb_substr($answer, 0, 100);
-						}
-
-						$this->answersTable->saveAnswer($answer, (int) $id);
-					}
-
-					$this->flashMessenger()->addSuccessMessage('Quiz successfully posted.');
-					return $this->redirect()->toRoute('quiz', ['action' => 'answer', 'id' => $id]);
+					$this->flashMessenger()->addSuccessMessage('Клиент успешно добавлен.');
+					return $this->redirect()->toRoute('crm', ['action' => 'index']);
 
 				} catch(\RuntimeException $exception) {
 					$this->flashMessenger()->addErrorMessage($exception->getMessage());
@@ -103,7 +96,7 @@ class CrmController extends AbstractActionController
 			return $this->notFoundAction();
 		}
  
-		$info = $this->quizzesTable->fetchQuizById((int)$id);
+		$info = $this->crmTable->fetchClientById((int)$id);
 		if(!$info) {
 			return $this->notFoundAction();
 		}
@@ -116,24 +109,24 @@ class CrmController extends AbstractActionController
 			$deleteForm->setData($formData);
 
 			if($deleteForm->isValid()) {
-				if($request->getPost()->get('delete_quiz') == 'Yes') {
+				if($request->getPost()->get('delete_client') == 'Да') {
 					# now check that the person deleting the quiz is the author of the quiz
-					if($info->getUserId() == $this->authPlugin()->getUserId() || $this->authPlugin()->getRoleId() == 1)
+					if($this->authPlugin()->getRoleId() == 1)
 					{
 
-						$this->quizzesTable->deleteQuizById((int)$info->getQuizId());
-						$this->flashMessenger()->addInfoMessage('Quiz successfully deleted!');
+						$this->crmTable->deleteCrmById((int)$info->getId());
+						$this->flashMessenger()->addInfoMessage('Клиент успешно удален!');
 
-						return $this->redirect()->toRoute('quiz', ['action' => 'index']);
+						return $this->redirect()->toRoute('crm', ['action' => 'index']);
 					}
 
 					# redirect this person away from this page with a warning
-					$this->flashMessenger()->addWarningMessage('You can only delete quiz you have posted');
+					$this->flashMessenger()->addWarningMessage('Клиентов может удалить только администратор');
 					return $this->redirect()->toRoute('home');
 				}
 
 				# here as well. The person presumably has clicked the No button
-				return $this->redirect()->toRoute('quiz', ['action' => 'index']);
+				return $this->redirect()->toRoute('crm', ['action' => 'index']);
 			}
 		}
 
@@ -150,9 +143,41 @@ class CrmController extends AbstractActionController
 		if(!$auth->hasIdentity()) {
 			return $this->redirect()->toRoute('login');
 		}
+        $request = $this->getRequest();
+        $searchData = $request->getQuery()->toArray();
+        $s='';
+        if(isset($searchData['s'])){
+            $s=$searchData['s'];
+        }
+
+        $passportUploadForm = new PassportUploadForm();
+        if ($request->isPost()) {
+            // Make certain to merge the $_FILES info!
+            $post = array_merge_recursive(
+                $request->getPost()->toArray(),
+                $request->getFiles()->toArray()
+            );
+
+            $passportUploadForm->setData($post);
+            if ($passportUploadForm->isValid()) {
+                $data = $passportUploadForm->getData();
+
+                // var_dump($data);
+                // array(1) { ["image-file"]=> array(5) {
+                // ["name"]=> string(11) "faceitA.jpg"
+                // ["type"]=> string(10) "image/jpeg"
+                // ["tmp_name"]=> string(24) "C:\xampp\tmp\php910C.tmp"
+                // ["error"]=> int(0)
+                // ["size"]=> int(10935) } }
+
+                // Form is valid, save the form!
+                //return $this->redirect()->toRoute('upload-form/success');
+            }
+        }
 
 		return new ViewModel([
-			'clients' => $this->crmTable->fetchAllClients()
+			'clients' => $this->crmTable->fetchAllClients($s),
+            'formPassport' => $passportUploadForm
 		]);
 	}
 

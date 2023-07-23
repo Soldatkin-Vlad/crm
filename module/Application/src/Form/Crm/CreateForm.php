@@ -10,7 +10,7 @@ use Laminas\Form\Form;
 
 class CreateForm extends Form
 {
-	public function __construct(CategoriesTable $categoriesTable)
+	public function __construct()
 	{
 		parent::__construct('new_client');
 		$this->setAttribute('method', 'post');
@@ -110,8 +110,8 @@ class CreateForm extends Form
                 'label' => 'Тариф',
                 'empty_option' => 'Выберите тариф...',
                 'value_options' => [
-                    'Базовый'  => 'Базовый',
-                    'Семейный' => 'Семейный',
+                    'Base'  => 'Базовый',
+                    'Family' => 'Семейный',
                 ]
             ],
             'attributes' => [
@@ -144,8 +144,8 @@ class CreateForm extends Form
                 'label' => 'Статус',
                 'empty_option' => 'Выберите статус...',
                 'value_options' => [
-                    'Акктивный'  => 'Акктивный',
-                    'Неактивный' => 'Неактивный',
+                    '1'  => 'Активный',
+                    '0' => 'Неактивный',
                 ]
             ],
             'attributes' => [

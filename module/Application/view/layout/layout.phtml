@@ -31,7 +31,7 @@
 
                 <div class="row flex-nowrap justify-content-between align-items-center">
                     <div class="col-4 pt-1">
-                        <?= date('l, j F, Y'); ?>
+                        <?= date('d.m.Y'); ?>
                     </div>
 
                     <div class="logo col-4 text-center">
@@ -68,9 +68,6 @@
                 <nav class="nav d-flex">
                     <a href="<?= $this->url('home'); ?>" class="pt-2 text-muted mr-2">Главная</a>
                     <?php if($this->identity()): ?>
-                    <a href="<?= $this->url('quiz', ['action' => 'index']); ?>" class="pt-2 text-muted mr-2">
-                        Тест
-                   </a>
                         <a href="<?= $this->url('crm', ['action' => 'index']); ?>" class="pt-2 text-muted mr-2">
                             Клиенты
                         </a>

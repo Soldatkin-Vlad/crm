@@ -43,11 +43,14 @@ class CrmTable extends AbstractTableGateway
 	}
 
 	# the correction should have been done here
-	public function fetchAllClients()
+	public function fetchAllClients(string $s)
 	{
 		$sqlQuery = $this->sql->select()
 		    ->where([$this->table.'.status' => 1])
 		    ->order('date_ad ASC');
+        if($s){
+            $sqlQuery->where->like($this->table.'.pasport', "%$s%");
+        }
 
 		$sqlStmt = $this->sql->prepareStatementForSqlObject($sqlQuery);
 		$handler = $sqlStmt->execute();
@@ -87,9 +90,9 @@ class CrmTable extends AbstractTableGateway
 		$factory     = new InputFilter\Factory();
 
 		# filter and validate quiz title
-		/*$inputFilter->add(
+		$inputFilter->add(
 			$factory->createInput([
-				'name' => 'title',
+				'name' => 'username',
 				'required' => true,
 				'filters' => [
 					['name' => Filter\StripTags::class],
@@ -103,8 +106,8 @@ class CrmTable extends AbstractTableGateway
 							'min' => 4,
 							'max' => 100,
 							'messages' => [
-								Validator\StringLength::TOO_SHORT => 'Quiz Title must have at least 4 characters',
-								Validator\StringLength::TOO_LONG  => 'Quiz Title must have at most 100 characters',
+								Validator\StringLength::TOO_SHORT => 'ФИО должно быть больше 4 символов',
+								Validator\StringLength::TOO_LONG  => 'ФИО должно быть меньше 100 символов',
 							],
 						],
 					],
@@ -112,30 +115,8 @@ class CrmTable extends AbstractTableGateway
 			])
 		);
 
-		# filter and validate category_id field
-		$inputFilter->add(
-			$factory->createInput([
-				'name' => 'category_id',
-				'required' => true,
-				'filters' => [
-					['name' => Filter\StripTags::class],
-					['name' => Filter\StringTrim::class],
-					['name' => Filter\ToInt::class],
-				],
-				'validators' => [
-					['name' => Validator\NotEmpty::class],
-					['name' => I18n\Validator\IsInt::class],
-					[
-						'name' => Validator\Db\RecordExists::class,
-						'options' => [
-							'table' => 'categories',
-							'field' => 'category_id',
-							'adapter' => $this->adapter,
-						],  
-					],
-				],
-			])
-		);
+		/*# filter and validate category_id field
+
 
 		# filter and validate timeout select field
 		$inputFilter->add(
@@ -151,7 +132,7 @@ class CrmTable extends AbstractTableGateway
 					[
 						'name' => Validator\InArray::class,
 						'options' => [
-							'haystack' => ['1 day', '3 days', '7 days'],
+							'haystack' => ['0', '1'],
 						],
 					],
 				],
@@ -265,13 +246,14 @@ class CrmTable extends AbstractTableGateway
 	{
 	    // todo: сопоставить поля с формы с БД
 		$values = [
-			'user_id'     => $data['user_id'],
-			'category_id' => $data['category_id'],
-			'title'       => $data['title'],
-			'question'    => $data['question'],
-			'allow'       => $data['allow'],
-			'timeout'     => date('Y-m-d H:i:s', strtotime("+" . $data['timeout'])),
-			'created'     => date('Y-m-d H:i:s')
+			'username'     => $data['username'],
+			'pasport' => $data['pasport'],
+			'birthday'       => date('Y-m-d H:i:s', strtotime($data['birthday'])),
+			'nomber_d'    => $data['nomber_d'],
+			'data_d'       => date('Y-m-d H:i:s', strtotime($data['data_d'])),
+			'trafic'     => $data['trafic'],
+            'coments'     => $data['coments'],
+            'status'     => '1'
 		];
 
 		$sqlQuery = $this->sql->insert()->values($values);

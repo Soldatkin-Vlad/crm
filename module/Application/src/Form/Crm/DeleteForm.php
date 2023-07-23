@@ -11,22 +11,22 @@ class DeleteForm extends Form
 {
 	public function __construct($name = null)
 	{
-		parent::__construct('remove_quiz');
+		parent::__construct('remove_client');
 		$this->setAttribute('method', 'post');
 
 		$this->add([
 			'type' => Element\Hidden::class,
-			'name' => 'id'
+			'name' => 'user_id'
 		]);
 
 		$this->add([
 			'type' => Element\Hidden::class,
-			'name' => 'quiz_id'
+			'name' => 'client_id'
 		]);
 
 		$this->add([
 			'type' => Element\Submit::class,
-			'name' => 'delete_quiz',
+			'name' => 'delete_client',
 			'attributes' => [
 				'class' => 'btn btn-primary'
 			]
