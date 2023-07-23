@@ -151,8 +151,6 @@ class CrmController extends AbstractActionController
 			return $this->redirect()->toRoute('login');
 		}
 
-		var_dump($this->params());
-
 		return new ViewModel([
 			'clients' => $this->crmTable->fetchAllClients()
 		]);
