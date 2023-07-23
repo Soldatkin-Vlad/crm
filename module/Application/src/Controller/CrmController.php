@@ -10,8 +10,8 @@ declare(strict_types=1);
 namespace Application\Controller;
 
 use Application\Form\Quiz\AnswerForm;
-use Application\Form\Quiz\CreateForm;
-use Application\Form\Quiz\DeleteForm;
+use Application\Form\Crm\CreateForm;
+use Application\Form\Crm\DeleteForm;
 use Application\Model\Table\AnswersTable;
 use Application\Model\Table\CrmTable;
 use Application\Model\Table\QuizzesTable;
