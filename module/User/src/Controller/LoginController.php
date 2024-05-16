@@ -85,13 +85,13 @@ class LoginController extends AbstractActionController
 
 				switch ($authResult->getCode()) {
 					case Result::FAILURE_IDENTITY_NOT_FOUND:
-						$this->flashMessenger()->addErrorMessage('Unknow email address!');
+						$this->flashMessenger()->addErrorMessage('Неверный Email!');
 						return $this->preserveUrl($returnUrl);
 						//return $this->redirect()->refresh(); # refresh the page to show error
 						break;
 
 					case Result::FAILURE_CREDENTIAL_INVALID:
-						$this->flashMessenger()->addErrorMessage('Incorrect Password!');
+						$this->flashMessenger()->addErrorMessage('Неверный пароль!');
 						return $this->redirect()->refresh(); # refresh the page to show error
 						break;
 						
@@ -106,7 +106,7 @@ class LoginController extends AbstractActionController
 						$storage->write($authAdapter->getResultRowObject(null, ['created', 'modified']));
 
 						if (!empty($returnUrl)) {
-							# will come back to later... if script does not work.
+                                # will come back to later... if script does not work.
 							return $this->preserveUrl($returnUrl);
 						}
 

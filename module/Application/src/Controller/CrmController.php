@@ -1,21 +1,14 @@
 <?php
 
-/**
- * This app was built using PHP 7.4 it might not work so well in PHP 8.0+ 
- *  @author    https://twitter.com/pulenong
- */
-
 declare(strict_types=1);
 
 namespace Application\Controller;
 
-use Application\Form\Quiz\AnswerForm;
 use Application\Form\Crm\CreateForm;
 use Application\Form\Crm\DeleteForm;
 use Application\Form\Crm\PassportUploadForm;
 use Application\Model\Table\AnswersTable;
 use Application\Model\Table\CrmTable;
-use Application\Model\Table\QuizzesTable;
 use Application\Model\Table\TalliesTable;
 use Laminas\Authentication\AuthenticationService;
 use Laminas\Mvc\Controller\AbstractActionController;

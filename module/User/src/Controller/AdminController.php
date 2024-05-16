@@ -59,7 +59,7 @@ class AdminController extends AbstractActionController
 			return $this->redirect()->toRoute('login');
 		}
 
-		# make sure that only the admin can acess this page
+            # make sure that only the admin can acess this page
 		if(!$this->authPlugin()->getRoleId() == 1) {
 			return $this->notFoundAction();
 		}

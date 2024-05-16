@@ -48,7 +48,8 @@
     "autoload": {
         "psr-4": {
             "Application\\": "module/Application/src/",
-            "User\\": "module/User/src"
+            "User\\": "module/User/src",
+            "History\\": "module/History/src/"
         }
     },
     "autoload-dev": {
@@ -72,5 +73,10 @@
     "require-dev": {
         "laminas/laminas-developer-tools": "^1.2.3",
         "laminas/laminas-test": "^3.3.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "laminas/laminas-component-installer": false
+        }
     }
 }

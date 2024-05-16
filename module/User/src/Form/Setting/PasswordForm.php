@@ -20,7 +20,7 @@ class PasswordForm extends Form
 			'type' => Element\Password::class,
 			'name' => 'current_password',
 			'options' => [
-				'label' => 'Current Password'
+				'label' => 'Текущий пароль'
 			],
 			'attributes' => [
 				'required' => true,
@@ -29,8 +29,8 @@ class PasswordForm extends Form
 				'class' => 'form-control',
 				'autocomplete' => false,
 				'data-toggle' => 'tooltip',
-				'title' => 'Provide your account\'s current password',
-				'placeholder' => 'Enter Your Current Password'
+				'title' => 'Укажите текущий пароль вашей учетной записи',
+				'placeholder' => 'Введите текущий пароль'
 			]
 		]);
 
@@ -39,7 +39,7 @@ class PasswordForm extends Form
 			'type' => Element\Password::class,
 			'name' => 'new_password',
 			'options' => [
-				'label' => 'New Password'
+				'label' => 'Новый пароль'
 			],
 			'attributes' => [
 				'required' => true,
@@ -48,8 +48,8 @@ class PasswordForm extends Form
 				'class' => 'form-control',
 				'autocomplete' => false,
 				'data-toggle' => 'tooltip',
-				'title' => 'Password must have at least 8 characters',
-				'placeholder' => 'Enter Your Preferred New Password'
+				'title' => 'Пароль должен содержать не менее 8 символов',
+				'placeholder' => 'Введите ваш новый пароль'
 			]
 		]);
 
@@ -58,7 +58,7 @@ class PasswordForm extends Form
 			'type' => Element\Password::class,
 			'name' => 'confirm_new_password',
 			'options' => [
-				'label' => 'Verify New Password'
+				'label' => 'Подтвердите новый пароль'
 			],
 			'attributes' => [
 				'required' => true,
@@ -67,8 +67,8 @@ class PasswordForm extends Form
 				'class' => 'form-control',
 				'autocomplete' => false,
 				'data-toggle' => 'tooltip',
-				'title' => 'Password must match that provided above',
-				'placeholder' => 'Enter Your New Password Again'
+				'title' => 'Пароль должен совпадать с указанным выше',
+				'placeholder' => 'Введите новый пароль еще раз'
 			]
 		]);
 
@@ -87,7 +87,7 @@ class PasswordForm extends Form
 			'name' => 'change_password',
 			'attributes' => [
 				'class' => 'btn btn-primary',
-				'value' => 'Save Changes'
+				'value' => 'Сохранить изменения'
 			]
 		]);
 	}

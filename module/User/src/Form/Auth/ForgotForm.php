@@ -20,7 +20,7 @@ class ForgotForm extends Form
 			'type' => Element\Email::class,
 			'name' => 'email',
 			'options' => [
-				'label' => 'Email Address',
+				'label' => 'Email',
 			],
 			'attributes' => [
 				'required' => true,
@@ -29,12 +29,12 @@ class ForgotForm extends Form
 				'pattern' => '^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$',
 				'autocomplete' => false,
 				'class' => 'form-control',
-				'title' => 'Provide your account\'s email address',
+				'title' => 'Укажите Email вашей учетной записи',
 				'placeholder' => 'Введите ваш Email'
 			]
 		]);
 
-		# captcha field
+		/*# captcha field
 		$this->add([
 			'type' => Element\Captcha::class,
 			'name' => 'turing',
@@ -62,7 +62,7 @@ class ForgotForm extends Form
 				'placeholder' => 'Type in characters displayed',
 				'captcha' => (new Element\Captcha())->getInputSpecification(), # validation
 			],
-		]);
+		]);*/
 
 		# csrf field
 		$this->add([
@@ -80,7 +80,7 @@ class ForgotForm extends Form
 			'type' => Element\Submit::class,
 			'name' => 'forgot_password',
 			'attributes' => [
-				'value' => 'Send Message',
+				'value' => 'Отправить сообщение',
 				'class' => 'btn btn-primary'
 			]
 		]);

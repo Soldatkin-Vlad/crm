@@ -9,7 +9,6 @@ use Application\Model\SlugTrait; # be sure to add this bit
 class CrmEntity
 {
 	// use SlugTrait;
-    // todo: исправить все поля в соответсвии с БД
 	protected $id;
 	protected $username;
 	protected $pasport;
@@ -180,7 +179,4 @@ class CrmEntity
     {
         $this->data_ad = $data_ad;
     }
-
-
-
 }

@@ -19,7 +19,7 @@ class LoginForm extends Form
 			'type' => Element\Email::class,
 			'name' => 'email',
 			'options' => [
-				'label' => 'Email Address',
+				'label' => 'Email',
 			],
 			'attributes' => [
 				'required' => true,
@@ -29,8 +29,8 @@ class LoginForm extends Form
 				'autocomplete' => false,
 				'data-toggle' => 'tooltip',
 				'class' => 'form-control',
-				'title' => 'Provide your email address',
-				'placeholder' => 'Enter Your Email Address',
+				'title' => 'Укажите свой Email',
+				'placeholder' => 'Введите ваш Email',
 			],
 		]);
 
@@ -39,7 +39,7 @@ class LoginForm extends Form
 			'type' => Element\Password::class,
 			'name' => 'password',
 			'options' => [
-				'label' => 'Password'
+				'label' => 'Пароль'
 			],
 			'attributes' => [
 				'required' => true,
@@ -47,8 +47,8 @@ class LoginForm extends Form
 				'maxlength' => 25,
 				'data-toggle' => 'tooltip',
 				'class' => 'form-control',
-				'title' => 'Provide your password',
-				'placeholder' => 'Enter Your Password',
+				'title' => 'Укажите свой пароль',
+				'placeholder' => 'Введите свой пароль',
 			]
 		]);
 
@@ -57,7 +57,7 @@ class LoginForm extends Form
 			'type' => Element\Checkbox::class,
 			'name' => 'recall',
 			'options' => [
-				'label' => 'Remember me?',
+				'label' => 'Запомнить меня',
 				'label_attributes' => [
 					'class' => 'custom-control-label'
 				],
@@ -93,7 +93,7 @@ class LoginForm extends Form
 			'type' => Element\Submit::class,
 			'name' => 'account_login',
 			'attributes' => [
-				'value' => 'Account Login',
+				'value' => 'Войти в аккаунт',
 				'class' => 'btn btn-primary'
 			]
 		]);

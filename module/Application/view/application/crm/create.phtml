@@ -1,8 +1,8 @@
 <?php
 
-$title = $this->translate('New Quiz');
+$title = $this->translate('Новый клиент');
 #meta keywords
-$this->headMeta()->appendName('keywords', 'Create, Start, New, Quiz');
+$this->headMeta()->appendName('keywords', 'Create, Start, New');
 #meta description
 $this->headMeta()->appendName('description', 'Добавить клиента');
 #page title
@@ -87,6 +87,15 @@ $form->prepare();
                 </div>
             </div>
 
+            <div class="mb-3">
+                <?= $this->formLabel($form->get('coments')); ?>
+                <div class="input-group">
+                    <?= $this->formTextarea($form->get('coments')); ?>
+                </div>
+                <div class="text-danger">
+                    <?= $this->formElementErrors($form->get('coments')); ?>
+                </div>
+            </div>
 
 			<div class="mb-3 float-right">
 

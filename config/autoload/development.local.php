@@ -21,7 +21,7 @@ return [
         'display_exceptions' => true,
     ],
     'db' => [
-    	'username' => 'root',  # change this to match your database's username 
-    	'password' => '22222222'       # change this to match your database's password
+    	'username' => 'root',
+    	'password' => ''
     ]
 ];

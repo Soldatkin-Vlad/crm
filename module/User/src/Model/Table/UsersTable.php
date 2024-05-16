@@ -381,8 +381,8 @@ class UsersTable extends AbstractTableGateway
 								'min' => 6,  
 								'max' => 128,
 								'messages' => [
-									Validator\StringLength::TOO_SHORT => 'Email address must have at least 6 characters!',
-									Validator\StringLength::TOO_LONG => 'Email address must have at most 128 characters!',
+									Validator\StringLength::TOO_SHORT => 'Email должен содержать не менее 6 символов!',
+									Validator\StringLength::TOO_LONG => 'Email должен содержать не более 128 символов!',
 								],
 							],
 						],
@@ -418,7 +418,7 @@ class UsersTable extends AbstractTableGateway
 								'min' => 8,
 								'max' => 25,
 								'messages' => [
-									Validator\StringLength::TOO_SHORT => 'Password must have at least 8 characters!',
+									Validator\StringLength::TOO_SHORT => 'Пароль должен содержать не менее 8 символов!',
 									Validator\StringLength::TOO_LONG => 'Password must have at most 25 characters!',
 								],
 							],
@@ -469,7 +469,7 @@ class UsersTable extends AbstractTableGateway
 							'name' => Validator\Csrf::class,
 							'options' => [
 								'messages' => [
-									Validator\Csrf::NOT_SAME => 'Oops! Refill the form and try again',
+									Validator\Csrf::NOT_SAME => 'Упс! Заполните форму заново и попробуйте еще раз',
 								],
 							],
 						],

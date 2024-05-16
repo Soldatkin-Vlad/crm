@@ -18,7 +18,7 @@ class EmailForm extends Form
 			'type' => Element\Email::class,
 			'name' => 'current_email',
 			'options' => [
-				'label' => 'Текущий email'
+				'label' => 'Текущий Email'
 			],
 			'attributes' => [
 				'required' => true,
@@ -28,7 +28,7 @@ class EmailForm extends Form
 				'autocomplete' => false,
 				'data-toggle' => 'tooltip',
 				'class' => 'form-control',
-				'title' => 'Bpvybnm Email',
+				'title' => 'Текущий Email',
 				'readonly' => true,
 			]
 		]);
@@ -37,7 +37,7 @@ class EmailForm extends Form
 			'type' => Element\Email::class,
 			'name' => 'new_email',
 			'options' => [
-				'label' => 'New Email Address'
+				'label' => 'Новый Email'
 			],
 			'attributes' => [
 				'required' => true,
@@ -47,8 +47,8 @@ class EmailForm extends Form
 				'autocomplete' => false,
 				'data-toggle' => 'tooltip',
 				'class' => 'form-control',
-				'placeholder' => 'Enter a new email address',
-				'title' => 'Provide a valid and working email address'
+				'placeholder' => 'Введите новый Email',
+				'title' => 'Укажите действующий и рабочий Email'
 			]
 		]);
 
@@ -56,7 +56,7 @@ class EmailForm extends Form
 			'type' => Element\Email::class,
 			'name' => 'confirm_new_email',
 			'options' => [
-				'label' => 'Verify New Email Address'
+				'label' => 'Подтвердите новый Email'
 			],
 			'attributes' => [
 				'required' => true,
@@ -66,8 +66,8 @@ class EmailForm extends Form
 				'autocomplete' => false,
 				'data-toggle' => 'tooltip',
 				'class' => 'form-control',
-				'placeholder' => 'Enter your new email address again',
-				'title' => 'Email address must match that provided above'
+				'placeholder' => 'Введите новый Email еще раз',
+				'title' => 'Email должен совпадать с указанным выше'
 			]
 		]);
 
@@ -86,7 +86,7 @@ class EmailForm extends Form
 			'name' => 'change_email',
 			'attributes' => [
 				'class' => 'btn btn-primary',
-				'value' => 'Save Changes'
+				'value' => 'Сохранить изменения'
 			]
 		]);
 	}

@@ -37,4 +37,5 @@ return [
     'Laminas\DeveloperTools',
     'Application',
     'User',  # Let the framework know about your newly created module
+    'History',
 ];
