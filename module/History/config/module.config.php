@@ -4,11 +4,12 @@ namespace History;
 
 use Laminas\Router\Http\Segment;
 use Laminas\ServiceManager\Factory\InvokableFactory;
+use History\Controller\Factory\HistoryControllerFactory;
 
 return [
     'controllers' => [
         'factories' => [
-            Controller\HistoryController::class => InvokableFactory::class,
+            Controller\HistoryController::class => HistoryControllerFactory::class,
         ],
     ],
 
