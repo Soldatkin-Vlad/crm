@@ -1,0 +1,70 @@
+<?php
+
+$title = $this->translate('Новое событие');
+#meta keywords
+$this->headMeta()->appendName('keywords', 'Create, Start, New');
+#meta description
+$this->headMeta()->appendName('description', 'Добавить событие');
+#page title
+$this->headTitle($this->escapeHtml($title));
+
+
+$form = $this->form;
+//$form->setAttribute('action', $this->url('history', ['action' => 'create']));
+$form->prepare();
+
+?>
+
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-md-6 shadow-sm mx-auto" >
+
+            <?= $this->form()->openTag($form); ?>
+
+            <h3 class="pt-2 text-md-center">
+                <?= $this->translate('Добавить событие'); ?>
+            </h3>
+
+            <div class="mb-3">
+                <?= $this->formLabel($form->get('interaction_date')); ?>
+                <div class="input-group">
+                    <?= $this->formDate($form->get('interaction_date')); ?>
+                </div>
+                <div class="text-danger">
+                    <?= $this->formElementErrors($form->get('interaction_date')); ?>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <?= $this->formLabel($form->get('type_name')); ?>
+                <div class="input-group">
+                    <?= $this->formSelect($form->get('type_name')); ?>
+                </div>
+                <div class="text-danger">
+                    <?= $this->formElementErrors($form->get('type_name')); ?>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <?= $this->formLabel($form->get('notes')); ?>
+                <div class="input-group">
+                    <?= $this->formTextarea($form->get('notes')); ?>
+                </div>
+                <div class="text-danger">
+                    <?= $this->formElementErrors($form->get('notes')); ?>
+                </div>
+            </div>
+
+            <div class="mb-3 float-right">
+
+                <?= $this->formSubmit($form->get('create_interaction')); ?>
+            </div>
+
+            <?= $this->form()->closeTag(); ?>
+        </div>
+
+    </div>
+
+</div>

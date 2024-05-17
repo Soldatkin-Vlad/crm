@@ -18,6 +18,24 @@ class InteractionsEntity
 
     protected $status;
 
+    protected $username;
+
+    /**
+     * @return mixed
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * @param mixed $username
+     */
+    public function setUsername($username): void
+    {
+        $this->username = $username;
+    }
+
     // Getters and setters
     public function getId()
     {

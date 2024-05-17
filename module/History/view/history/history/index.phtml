@@ -10,6 +10,13 @@ $this->headMeta()->appendName('description', 'List of all clients.');
 #page title
 $this->headTitle($this->escapeHtml($title));
 
+$typeColors = [
+    'Звонок' => '#1E9934',
+    'Встреча' => '#FF5733',
+    'Email' => '#3357FF',
+    'Социальные сети' => '#CCAC00',
+    'Другое' => '#DC143C',
+];
 ?>
 
 <div class="container">
@@ -22,7 +29,7 @@ $this->headTitle($this->escapeHtml($title));
                 <h3 class="mb-3"><?= $this->translate('История взаимодействия с ') . $this->client->getUsername(); ?></h3>
 
                 <p>
-                    <a href="<?= $this->url('history', ['action' => 'create']); ?>" class="btn btn-sm btn-primary">
+                    <a href="<?= $this->url('history', ['action' => 'create', 'id' => $this->client->getId()]); ?>" class="btn btn-sm btn-primary">
                         <i>+</i> Добавить
                     </a>
                 </p>
@@ -79,9 +86,11 @@ $this->headTitle($this->escapeHtml($title));
                                         );
                                         ?>
                                     </td>
-                                    <td><?= $interaction->getTypeName(); ?></td>
+                                    <td style="color: <?= $typeColors[$interaction->getTypeName()] ?? 'black'; ?>">
+                                        <?= $interaction->getTypeName(); ?>
+                                    </td>
                                     <td><?= $interaction->getNotes(); ?></td>
-                                    <td><?= $interaction->getPerformedBy(); ?></td>
+                                    <td><?= $interaction->getUsername(); ?></td>
 
                                     <td>
                                         <!--a href="<?= $this->url('history', ['action' => 'view', 'id' => $interaction->getId()]); ?>">

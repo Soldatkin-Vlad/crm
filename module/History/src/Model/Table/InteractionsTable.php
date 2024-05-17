@@ -29,6 +29,7 @@ class InteractionsTable extends AbstractTableGateway
     public function fetchAllInteractionsByClientId(int $clientId)
     {
         $sqlQuery = $this->sql->select()
+            ->join('users', 'users.user_id = interactions.performed_by', ['username' => 'username'])
             ->where([$this->table . '.client_id' => $clientId])
             ->order('interaction_date DESC');
 
@@ -133,7 +134,8 @@ class InteractionsTable extends AbstractTableGateway
             'interaction_date' => date('Y-m-d H:i:s', strtotime($data['interaction_date'])),
             'type_name' => $data['type_name'],
             'notes' => $data['notes'],
-            'performed_by' => $data['performed_by']
+            'performed_by' => $data['performed_by'],
+            'status' => $data['status'],
         ];
 
         $sqlQuery = $this->sql->insert()->values($values);
