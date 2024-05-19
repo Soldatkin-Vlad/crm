@@ -7,6 +7,7 @@ use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
 use History\Form\Interactions\CreateForm;
 use History\Form\Interactions\DeleteForm;
+use History\Form\Interactions\FetchForm;
 use History\Model\Table\InteractionsTable;
 use Laminas\Authentication\AuthenticationService;
 use Laminas\Http\PhpEnvironment\Request;
@@ -32,22 +33,28 @@ class HistoryController extends AbstractActionController
         }
         $request = $this->getRequest();
         $searchData = $request->getQuery()->toArray();
-        $s='';
-        if(isset($searchData['s'])){
-            $s=$searchData['s'];
-        }
 
-        $client_id = null;
-        if(isset($searchData['client_id'])){
-            $client_id = $searchData['client_id'];
-        }
+        $client_id = $searchData['client_id'] ?? null;
         if(!$client_id){
             return $this->redirect()->toRoute('crm');
         }
 
+        $type_name = $searchData['type_name'] ?? null;
+
+        $form = new FetchForm($client_id);
+
+        // Populate the form with data from the query if available
+        if (!empty($type_name)) {
+            $form->setData(['type_name' => $type_name]);
+        }
+
+        $interactions = $this->interactionsTable->fetchAllInteractionsByClientId($client_id, $type_name);
+
         return new ViewModel([
-            'interactions' => $this->interactionsTable->fetchAllInteractionsByClientId($client_id),
-            'client' => $this->crmTable->fetchClientById($client_id)
+            'form' => $form,
+            'interactions' => $interactions,
+            'client' => $this->crmTable->fetchClientById($client_id),
+            'client_id' => $client_id
         ]);
     }
 
@@ -111,12 +118,17 @@ class HistoryController extends AbstractActionController
             return $this->redirect()->toRoute('login');
         }
 
+        $client_id = (int) $this->params()->fromRoute('id');
+        if(!is_numeric($client_id)) {
+            return $this->notFoundAction();
+        }
+
         $id = (int) $this->params()->fromRoute('id');
         if(!is_numeric($id)) {
             return $this->notFoundAction();
         }
 
-        $info = $this->crmTable->fetchClientById((int)$id);
+        $info = $this->interactionsTable->fetchInteractionById((int)$id);
         if(!$info) {
             return $this->notFoundAction();
         }
@@ -129,15 +141,15 @@ class HistoryController extends AbstractActionController
             $deleteForm->setData($formData);
 
             if($deleteForm->isValid()) {
-                if($request->getPost()->get('delete_interactions') == 'Да') {
+                if($request->getPost()->get('delete_interaction') == 'Да') {
                     # now check that the person deleting the quiz is the author of the quiz
                     if($this->authPlugin()->getRoleId() == 1)
                     {
 
-                        $this->crmTable->deleteCrmById((int)$info->getId());
+                        $this->interactionsTable->deleteInteractionById((int)$info->getId());
                         $this->flashMessenger()->addInfoMessage('Событие успешно удален!');
 
-                        return $this->redirect()->toRoute('history', ['action' => 'index']);
+                        return $this->redirect()->toRoute('history', ['action' => 'index'], ['query' => ['client_id' => $client_id]]);
                     }
 
                     # redirect this person away from this page with a warning
@@ -146,7 +158,7 @@ class HistoryController extends AbstractActionController
                 }
 
                 # here as well. The person presumably has clicked the No button
-                return $this->redirect()->toRoute('history', ['action' => 'index']);
+                return $this->redirect()->toRoute('history', ['action' => 'index'], ['query' => ['client_id' => $client_id]]);
             }
         }
 

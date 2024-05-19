@@ -10,7 +10,7 @@ use Laminas\Http\PhpEnvironment\Request;
 
 class CreateForm extends Form
 {
-    public function __construct($clientId, $performedBy)
+    public function __construct($client_id, $performed_by)
     {
         parent::__construct('new_interaction');
         $this->setAttribute('method', 'post');
@@ -20,7 +20,7 @@ class CreateForm extends Form
             'type' => Element\Hidden::class,
             'name' => 'client_id',
             'attributes' => [
-                'value' => $clientId
+                'value' => $client_id
             ]
         ]);
 
@@ -78,7 +78,7 @@ class CreateForm extends Form
             'type' => Element\Hidden::class,
             'name' => 'performed_by',
             'attributes' => [
-                'value' => $performedBy
+                'value' => $performed_by
             ]
         ]);
 

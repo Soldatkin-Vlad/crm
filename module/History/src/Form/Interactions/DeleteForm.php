@@ -9,9 +9,9 @@ use Laminas\Form\Form;
 
 class DeleteForm extends Form
 {
-    public function __construct($name = null)
+    public function __construct($client_id)
     {
-        parent::__construct('remove_client');
+        parent::__construct('remove_interaction');
         $this->setAttribute('method', 'post');
 
         $this->add([
@@ -26,7 +26,7 @@ class DeleteForm extends Form
 
         $this->add([
             'type' => Element\Submit::class,
-            'name' => 'delete_client',
+            'name' => 'delete_interaction',
             'attributes' => [
                 'class' => 'btn btn-primary'
             ]

@@ -1,12 +1,12 @@
 <?php
 
-$title = 'Удаление клиента';
+$title = 'Удаление События';
 #page title
 $this->headTitle($this->escapeHtml($title));
 
 
 $form = $this->form;
-$form->setAttribute('action', $this->url('crm', ['action' => 'delete', 'id' => $this->quiz->getId()]));
+$form->setAttribute('action', $this->url('history', ['action' => 'delete', 'id' => $this->quiz->getId()]));
 $form->prepare();
 
 ?>
@@ -15,18 +15,18 @@ $form->prepare();
 
     <div class="row">
 
-        <div class="col-md-5 shadow-sm">
+        <div class="col-md-5 shadow-sm mx-auto">
 
             <?= $this->form()->openTag($form); ?>
 
             <h3 class="pt-2 text-md-center mb-3">
-                Удаление клиента
+                Удаление События
             </h3>
 
-            <p class="form-text">Вы уверены, что хотите удалить клиента?</p>
+            <p class="form-text">Вы уверены, что хотите удалить событие?</p>
 
             <div class="mb-3 float-left">
-                <?= $this->formSubmit($form->get('delete_client')->setValue('Нет')); ?>
+                <?= $this->formSubmit($form->get('delete_interaction')->setValue('Нет')); ?>
             </div>
 
             <div class="mb-3 float-right">
@@ -34,7 +34,7 @@ $form->prepare();
 
                 <?= $this->formHidden($form->get('client_id')->setValue($this->quiz->getId())); ?>
 
-                <?= $this->formSubmit($form->get('delete_client')->setValue('Да')); ?>
+                <?= $this->formSubmit($form->get('delete_interaction')->setValue('Да')); ?>
             </div>
 
             <?= $this->form()->closeTag(); ?>

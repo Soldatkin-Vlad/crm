@@ -10,6 +10,11 @@ $this->headMeta()->appendName('description', 'List of all clients.');
 #page title
 $this->headTitle($this->escapeHtml($title));
 
+/** @var \Laminas\View\Renderer\PhpRenderer $this */
+/** @var array $interactions */
+/** @var \Laminas\Form\Form $form */
+/** @var \Application\Model\Entity\CrmEntity $client */
+
 $typeColors = [
     'Звонок' => '#1E9934',
     'Встреча' => '#FF5733',
@@ -37,20 +42,23 @@ $typeColors = [
             </div>
 
 
-            <form method="get" action="/history/index" >
+            <form method="get" action="<?= $this->url('history', ['action' => 'index']); ?>" >
+                <?= $this->form()->openTag($form) ?>
                 <div class="mb-3">
                     <div class="input-group">
-                        <input type="text" name="s" required="required" size="40" maxlength="255" class="form-control" placeholder="Введите текст запроса" data-toggle="tooltip" title="Введите текст запроса" value="">
+                        <?= $this->formSelect($form->get('type_name')); ?>
+                        <?= $this->formHidden($form->get('client_id'), ['value' => $client->getId()]); ?>
                     </div>
                 </div>
                 <div class="mb-3 float-right">
-                    <input type="submit" name="search_history" class="btn btn-primary" value="Поиск">
+                    <input type="submit" name="filter_history" class="btn btn-primary" value="Фильтр">
                 </div>
+                <?= $this->form()->closeTag() ?>
             </form>
 
             <?= $this->form()->closeTag() ?>
 
-            <?php if(count($this->interactions) > 0): ?>
+            <?php if(count($interactions) > 0): ?>
 
                 <div class="table-responsive">
 
@@ -112,7 +120,7 @@ $typeColors = [
                 </div>
             <?php else: ?>
                 <p class="form-text text-muted pt-1">
-                    Нет записей</p>
+                    Нет взаимодействий для отображения</p>
                 </p>
             <?php endif; ?>
         </div>

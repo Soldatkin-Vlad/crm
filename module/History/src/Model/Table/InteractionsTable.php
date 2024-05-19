@@ -26,12 +26,23 @@ class InteractionsTable extends AbstractTableGateway
         $this->initialize();
     }
 
-    public function fetchAllInteractionsByClientId(int $clientId)
+    public function deleteInteractionById(int $id)
+    {
+        $sqlQuery = $this->sql->update()->set(['status' => '0'])->where(['id' => $id]);
+        $sqlStmt  = $this->sql->prepareStatementForSqlObject($sqlQuery);
+
+        return $sqlStmt->execute();
+    }
+
+    public function fetchAllInteractionsByClientId(int $client_id, string $type_name= null)
     {
         $sqlQuery = $this->sql->select()
             ->join('users', 'users.user_id = interactions.performed_by', ['username' => 'username'])
-            ->where([$this->table . '.client_id' => $clientId])
+            ->where([$this->table . '.client_id' => $client_id])
             ->order('interaction_date DESC');
+        if ($type_name) {
+            $sqlQuery->where(['type_name' => $type_name]);
+        }
 
         $sqlStmt = $this->sql->prepareStatementForSqlObject($sqlQuery);
         $handler = $sqlStmt->execute();
@@ -44,6 +55,26 @@ class InteractionsTable extends AbstractTableGateway
 
         return $resultSet;
     }
+
+    /**public function fetchInteractionsById(string $s)
+    {
+        $sqlQuery = $this->sql->select()
+            ->where([$this->table.'.status' => 1]);
+        if($s){
+            $sqlQuery->where->like($this->table.'.type_name', "%$s%");
+        }
+
+        $sqlStmt = $this->sql->prepareStatementForSqlObject($sqlQuery);
+        $handler = $sqlStmt->execute();
+
+        $classMethod = new ClassMethodsHydrator();
+        $entity      = new InteractionsEntity();
+
+        $resultSet = new HydratingResultSet($classMethod, $entity);
+        $resultSet->initialize($handler);
+
+        return $resultSet;
+    }**/
 
     public function fetchInteractionById(int $id)
     {
