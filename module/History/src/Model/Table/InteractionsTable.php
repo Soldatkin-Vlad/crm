@@ -26,12 +26,17 @@ class InteractionsTable extends AbstractTableGateway
         $this->initialize();
     }
 
-    public function deleteInteractionById(int $id)
-    {
-        $sqlQuery = $this->sql->update()->set(['status' => '0'])->where(['id' => $id]);
-        $sqlStmt  = $this->sql->prepareStatementForSqlObject($sqlQuery);
+//    public function deleteInteractionById(int $id)
+//    {
+//        $sqlQuery = $this->sql->update()->set(['status' => '0'])->where(['id' => $id]);
+//        $sqlStmt  = $this->sql->prepareStatementForSqlObject($sqlQuery);
+//
+//        return $sqlStmt->execute();
+//    }
 
-        return $sqlStmt->execute();
+    public function deleteInteraction(int $id)
+    {
+        $this->tableGateway->delete(['id' => $id]);
     }
 
     public function fetchAllInteractionsByClientId(int $client_id, string $type_name= null)

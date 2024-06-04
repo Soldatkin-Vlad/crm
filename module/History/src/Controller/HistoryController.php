@@ -110,61 +110,83 @@ class HistoryController extends AbstractActionController
         return new ViewModel(['form' => $addForm]);
     }
 
+//    public function deleteAction()
+//    {
+//        # allow only logged in users
+//        $auth = new AuthenticationService();
+//        if(!$auth->hasIdentity()) {
+//            return $this->redirect()->toRoute('login');
+//        }
+//
+//        $client_id = (int) $this->params()->fromRoute('id');
+//        if(!is_numeric($client_id)) {
+//            return $this->notFoundAction();
+//        }
+//
+//        $id = (int) $this->params()->fromRoute('id');
+//        if(!is_numeric($id)) {
+//            return $this->notFoundAction();
+//        }
+//
+//        $info = $this->interactionsTable->fetchInteractionById((int)$id);
+//        if(!$info) {
+//            return $this->notFoundAction();
+//        }
+//
+//        $deleteForm = new DeleteForm();
+//        $request = $this->getRequest();
+//
+//        if($request->isPost()) {
+//            $formData = $request->getPost()->toArray();
+//            $deleteForm->setData($formData);
+//
+//            if($deleteForm->isValid()) {
+//                if($request->getPost()->get('delete_interaction') == 'Да') {
+//                    # now check that the person deleting the quiz is the author of the quiz
+//                    if($this->authPlugin()->getRoleId() == 1)
+//                    {
+//
+//                        $this->interactionsTable->deleteInteractionById((int)$info->getId());
+//                        $this->flashMessenger()->addInfoMessage('Событие успешно удален!');
+//
+//                        return $this->redirect()->toRoute('history', ['action' => 'index'], ['query' => ['client_id' => $client_id]]);
+//                    }
+//
+//                    # redirect this person away from this page with a warning
+//                    $this->flashMessenger()->addWarningMessage('События может удалить только администратор');
+//                    return $this->redirect()->toRoute('home');
+//                }
+//
+//                # here as well. The person presumably has clicked the No button
+//                return $this->redirect()->toRoute('history', ['action' => 'index'], ['query' => ['client_id' => $client_id]]);
+//            }
+//        }
+//
+//        return new ViewModel([
+//            'form' => $deleteForm,
+//            'quiz' => $info
+//        ]);
+//    }
     public function deleteAction()
     {
-        # allow only logged in users
         $auth = new AuthenticationService();
-        if(!$auth->hasIdentity()) {
+        if (!$auth->hasIdentity()) {
             return $this->redirect()->toRoute('login');
         }
 
-        $client_id = (int) $this->params()->fromRoute('id');
-        if(!is_numeric($client_id)) {
-            return $this->notFoundAction();
-        }
-
-        $id = (int) $this->params()->fromRoute('id');
-        if(!is_numeric($id)) {
-            return $this->notFoundAction();
-        }
-
-        $info = $this->interactionsTable->fetchInteractionById((int)$id);
-        if(!$info) {
-            return $this->notFoundAction();
-        }
-
-        $deleteForm = new DeleteForm();
         $request = $this->getRequest();
-
-        if($request->isPost()) {
-            $formData = $request->getPost()->toArray();
-            $deleteForm->setData($formData);
-
-            if($deleteForm->isValid()) {
-                if($request->getPost()->get('delete_interaction') == 'Да') {
-                    # now check that the person deleting the quiz is the author of the quiz
-                    if($this->authPlugin()->getRoleId() == 1)
-                    {
-
-                        $this->interactionsTable->deleteInteractionById((int)$info->getId());
-                        $this->flashMessenger()->addInfoMessage('Событие успешно удален!');
-
-                        return $this->redirect()->toRoute('history', ['action' => 'index'], ['query' => ['client_id' => $client_id]]);
-                    }
-
-                    # redirect this person away from this page with a warning
-                    $this->flashMessenger()->addWarningMessage('События может удалить только администратор');
-                    return $this->redirect()->toRoute('home');
+        if ($request->isPost()) {
+            $id = (int) $request->getPost('id');
+            if ($id) {
+                try {
+                    $this->interactionsTable->deleteInteraction($id);
+                    $this->flashMessenger()->addSuccessMessage('Событие успешно удалено');
+                } catch (\Exception $e) {
+                    $this->flashMessenger()->addErrorMessage('Ошибка при удалении события');
                 }
-
-                # here as well. The person presumably has clicked the No button
-                return $this->redirect()->toRoute('history', ['action' => 'index'], ['query' => ['client_id' => $client_id]]);
             }
         }
 
-        return new ViewModel([
-            'form' => $deleteForm,
-            'quiz' => $info
-        ]);
+        return $this->redirect()->toRoute('history');
     }
 }

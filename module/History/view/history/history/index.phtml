@@ -107,9 +107,7 @@ $typeColors = [
                                         <!--a href="<?= $this->url('history', ['action' => 'edit', 'id' => $interaction->getId()]); ?>">
 											Редактировать
 										</a-->
-                                        <a href="<?= $this->url('history', ['action' => 'delete', 'id' => $interaction->getId()]); ?>">
-                                            Удалить
-                                        </a>
+                                        <a href="#" class="delete-button" data-id="<?= $interaction->getId(); ?>">Удалить</a>
 
                                     </td>
                                 </tr>
@@ -125,4 +123,32 @@ $typeColors = [
             <?php endif; ?>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteButtons = document.querySelectorAll('.delete-button');
+
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const interactionId = this.getAttribute('data-id');
+                    const confirmation = confirm('Вы уверены, что хотите удалить это событие?');
+
+                    if (confirmation) {
+                        const form = document.createElement('form');
+                        form.method = 'POST';
+                        form.action = `/history/delete?id=${interactionId}`;
+
+                        const input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = 'id';
+                        input.value = interactionId;
+
+                        form.appendChild(input);
+                        document.body.appendChild(form);
+                        form.submit();
+                    }
+                });
+            });
+        });
+    </script>
 </div>
