@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/home/osboxes/pasport_eye/pasport_eye_v_0.2.0/pasport_eye.py", line 5, in <module>
+    from scripts_pasport_eye.output import OUTput
+  File "/home/osboxes/pasport_eye/pasport_eye_v_0.2.0/scripts_pasport_eye/output.py", line 66
+    if output == "csv":
+    ^
+IndentationError: expected an indented block after 'if' statement on line 61

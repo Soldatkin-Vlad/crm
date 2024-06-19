@@ -22,6 +22,6 @@ return [
     ],
     'db' => [
     	'username' => 'root',
-    	'password' => ''
+    	'password' => 'root'
     ]
 ];

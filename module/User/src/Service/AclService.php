@@ -48,6 +48,7 @@ class AclService extends Acl
     # next create a method that checks whether a role is allowed access to a resource
     public function isAuthorized($role = null, $resource = null)
     {
+        //return true;
         if(null === $role || (!$this->hasRole($role))) {
             return false;
         }

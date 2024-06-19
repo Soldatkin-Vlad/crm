@@ -151,11 +151,64 @@ class CrmController extends AbstractActionController
                 $request->getFiles()->toArray()
             );
 
+			//var_dump($post);
             $passportUploadForm->setData($post);
             if ($passportUploadForm->isValid()) {
                 $data = $passportUploadForm->getData();
 
-                // var_dump($data);
+                //var_dump($data);
+				// Известный путь к файлу, который нужно скопировать
+				$sourceFilePath = $data["image-file"]['tmp_name'];
+				// Создание новой временной директории
+				// Генерация случайного набора цифр для имени временной директории
+				$randomDirName = 'temp_' . mt_rand(100000, 999999);
+				$tempDir = '/var/www/crm' . DIRECTORY_SEPARATOR . $randomDirName;
+				if (!is_dir($tempDir) && !mkdir($tempDir, 0777, true) && !is_dir($tempDir)) {
+					throw new \RuntimeException(sprintf('Directory "%s" was not created', $tempDir));
+				}
+				// Новый путь для копирования файла
+				$destinationFilePath = $tempDir . DIRECTORY_SEPARATOR . basename($sourceFilePath);
+				// Копирование файла в новую временную директорию
+				if (copy($sourceFilePath, $destinationFilePath)) {
+					//var_dump($destinationFilePath);
+				}
+
+				// Команда для выполнения
+				$command = 'python3 /home/osboxes/pasport_eye/pasport_eye_v_0.2.0/pasport_eye.py -p ' . $randomDirName . ' --improved_recognition OFF --output terminal > ' . $tempDir . 'old' . ' 2>&1'; // Пример команды, вы можете изменить её на нужную вам
+
+				// Выполнение команды и получение результата
+				$output = [];
+				$returnVar = 0;
+				exec($command, $output, $returnVar);
+		
+				// Преобразование массива строк в одну строку
+				$result = implode("\n", $output);
+				//var_dump($output);
+
+				//var_dump($result);
+
+				// Путь к файлу
+				$filePath = $tempDir . 'old';
+				$result='';
+				// Проверка наличия файла
+				if (file_exists($filePath)) {
+					$fileContent = file_get_contents($filePath);
+		
+					// Поиск первого значения из 10 чисел подряд
+					$pattern = '/\d{10}/';
+					preg_match($pattern, $fileContent, $matches);
+			
+					$result = $matches[0] ?? '';
+					$s = $result;
+				}
+		
+				// Чтение содержимого файла
+
+
+				//$command = escapeshellcmd('/usr/custom/test.py');
+				//$output = shell_exec($command);
+				//var_dump($output);
+
                 // array(1) { ["image-file"]=> array(5) {
                 // ["name"]=> string(11) "faceitA.jpg"
                 // ["type"]=> string(10) "image/jpeg"
@@ -169,6 +222,7 @@ class CrmController extends AbstractActionController
         }
 
 		return new ViewModel([
+			's' => $s,
 			'clients' => $this->crmTable->fetchAllClients($s),
             'formPassport' => $passportUploadForm
 		]);

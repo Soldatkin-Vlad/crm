@@ -103,12 +103,24 @@ class Module
         $roleId = !$auth->hasIdentity() ? (int) $guest->getRoleId() : (int) $auth->getIdentity()->role_id;
         $role = $rolesTable->fetchRoleById($roleId);
 
+        //var_dump($role);
+
         $routeMatch = $mvcEvent->getRouteMatch();
         $resource = $routeMatch->getParam('controller') . DS . $routeMatch->getParam('action');
 
-        //print_r($viewAcl->isAuthorized($role->getRole(), $resource)); exit(1);
+        //var_dump($routeMatch);
+                //var_dump($response);
+                //var_dump($role->getRole());
+
+                //var_dump($resource);
+
+//var_dump($viewAcl->isAuthorized($role->getRole(), $resource)); 
+        // exit(1);
 
         $response = $mvcEvent->getResponse();
+
+        //var_dump($response);
+
         if($viewAcl->isAuthorized($role->getRole(), $resource)) {
             if($response instanceof Response) {
                 if($response->getStatusCode() != 200) {
@@ -118,6 +130,7 @@ class Module
 
             return;
         }
+
 
         if(!$response instanceof Response) {
             return $response;
