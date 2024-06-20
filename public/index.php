@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types=1); 
+declare(strict_types=1);
 
 use Laminas\Mvc\Application;
-use Laminas\Stdlib\ArrayUtils; 
+use Laminas\Stdlib\ArrayUtils;
 
 date_default_timezone_set('Africa/Gaborone'); # change to your continent/nearest city
-defined('DS') || define('DS', "\\");
+defined('DS') || define('DS', DIRECTORY_SEPARATOR);
 defined('DOOR') || define('DOOR', getcwd());
 
 /**
@@ -14,11 +14,6 @@ defined('DOOR') || define('DOOR', getcwd());
  * to the application root now.
  */
 chdir(dirname(__DIR__));
-
-if ($_SERVER['APPLICATION_ENV'] === 'development') {
-    error_reporting(E_ALL);
-    ini_set("display_errors", '1');
-}
 
 // Decline static file requests back to the PHP built-in webserver
 if (php_sapi_name() === 'cli-server') {

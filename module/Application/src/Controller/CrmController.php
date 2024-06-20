@@ -61,6 +61,10 @@ class CrmController extends AbstractActionController
 				try {
 
 					$data = $addForm->getData();
+
+                    // Добавляем текущую дату и время в поле date_ad
+                    $data['date_ad'] = date('Y-m-d H:i:s');
+
 					$info = $this->crmTable->saveClient($data);
 
 					$this->flashMessenger()->addSuccessMessage('Клиент успешно добавлен.');
@@ -174,7 +178,7 @@ class CrmController extends AbstractActionController
 				}
 
 				// Команда для выполнения
-				$command = 'python3 /home/osboxes/pasport_eye/pasport_eye_v_0.2.0/pasport_eye.py -p ' . $randomDirName . ' --improved_recognition OFF --output terminal > ' . $tempDir . 'old' . ' 2>&1'; // Пример команды, вы можете изменить её на нужную вам
+				$command = 'python3 /home/osboxes/pasport_eye/pasport_eye_v_0.2.0/pasport_eye.py -p ' . $randomDirName . ' --improved_recognition OFF --output terminal > ' . $tempDir . 'old' . ' 2>&1';
 
 				// Выполнение команды и получение результата
 				$output = [];
